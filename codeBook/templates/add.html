@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1> Add Post </h1>
+<div class = "section">
+    <form method="POST" action="/add/Added">
+        <textarea rows="20" cols="60" name="post-content">
+Mark Code Here
+        </textarea>
+        <p/>
+        Tags: <input type="text", name="tags" placeholder='tags seperated by ,'></input><p/>
+        Password: <input type="password" name="password" placeholder='password'></input><p/>
+        <input type="submit" value="Submit"></input>
+    </form>
+</div>
+
+{% endblock content %}

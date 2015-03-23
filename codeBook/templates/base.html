@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <meta charset='UTF-8'>
+    <meta name="viewport" content="wclassth=device-wclassth,initial-scale=1">
+    <head>
+       <title>
+            {{title}}
+        </title>
+        <link rel='stylesheet' type='text/css' href="{{url_for('static', filename='prettify/doxy.css')}}"/>
+        <link rel='stylesheet' type='text/css' href="{{url_for('static', filename='style.css')}}"/>
+        <script type='text/javascript' src="{{url_for('static', filename='prettify/prettify.js')}}"></script>
+    </head>
+    <body onLoad='prettyPrint()'>
+        <div class='container'>
+        <div class='header'>
+        </div>
+        
+        <div class='content'>
+            {%block content%}
+            {%endblock content%}
+        </div>
+        
+        <div class='footer'>
+        </div>
+        </div>
+    </body>
+</html>
