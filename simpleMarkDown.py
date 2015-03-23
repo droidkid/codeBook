@@ -9,9 +9,21 @@
 """
 Ultra Simple MarkDown Parser
 
-*bold*
+*buld*
 /italics/
-[link 'text' source]
+[link text href]
+
+```
+SourceCode
+```
+
+== h1 ==
+=== h2 ===
+
+-list1
+ -sub list
+ -sublist
+-list
 
 """
 
@@ -74,12 +86,12 @@ class Parser:
             self.consume();
 
             while listLevel[-1] > indent:
-                self.append(" "*listLevel[-1] + "<ol/>\n");
+                self.append(" "*listLevel[-1] + "<ul/>\n");
                 listLevel.pop();
 
             if listLevel[-1] < indent:
                 listLevel.append(indent);
-                self.append(" "*listLevel[-1] + "<ol>\n");
+                self.append(" "*listLevel[-1] + "<ul>\n");
             
             self.append(" "*listLevel[-1]+" <li>")
             self.parseLine(appendMarker=False);
@@ -87,7 +99,7 @@ class Parser:
 
 
         numOpen = len(listLevel);
-        self.append("</ol>\n"*(numOpen-1));
+        self.append("</ul>\n"*(numOpen-1));
         
             
             
@@ -216,7 +228,7 @@ class Parser:
     '''
     Parses a Single Lines
 
-    *bold*
+    *buld*
     /italic/
 
     escape sequences with \
