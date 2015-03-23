@@ -1,0 +1,82 @@
+codeBook
+----------
+
+A simple web app written in python using flask, created mostly for learning purposes and to help me keep track of commonly used code Snippets used in programming contests. 
+
+It can also be used to write simple blogs.
+
+Libraries Used
+-------------
+Flask
+SqLite
+google Prettify
+
+
+ProjectStructure
+----------------
+
+Tables
+-------
+
+table Post - 
+post_id, post_name, post_content
+
+table Tag
+tag_id, tag_name
+
+PostTag
+post_id, tag_id
+
+Navigating
+----------
+
+The app uses a simple master password to make any changes on the blog.
+
+Each post is accessed by
+/post/<postName>
+
+Access by Tags
+/tag/<tagName>
+
+To add new Posts
+/addPost
+
+To edit tags
+/editTags
+
+To edit Posts
+/edit/<postName>
+
+Writing Posts
+-----------------
+
+Since this app was created for learning purposes, I decided to write my own markDown/asciiDoc engine.
+The format is as follows
+
+== h1 ==
+=== h2 ===
+==== h3 ====
+===== h4 ====
+
+The equal after h1 is optional.
+
+[source, lang]
+--------------
+//code here
+--------------
+
+*bold*
++mono+
+/italic/
+
+.Optional Header
+
+*list1
+*list2
+*list3
+
+\* - escape Sequence
+
+[link text href]
+
+
