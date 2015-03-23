@@ -72,7 +72,6 @@ class Parser:
                 c = self.read();
                 indent = indent + 1;
             self.consume();
-            print("INDENT: "+str(indent));
 
             while listLevel[-1] > indent:
                 self.append(" "*listLevel[-1] + "<ol/>\n");
@@ -113,10 +112,22 @@ class Parser:
         self.append('<h'+str(headLevel)+'>');
         self.parseLine(endMarker=['=','\n'], appendMarker=False);
 
-        self.append('<h'+str(headLevel)+'/>\n');
+        self.append('</h'+str(headLevel)+'>\n');
         self.consumeLine();
 
             
+    def sanitizeCode(self, line):
+        ret = '';
+        for c in line:
+            if c == '<':
+                ret= ret + '&lt';
+            elif c == '&':
+                ret = ret + '&amp'
+            elif c == '>':
+                ret = ret + '&gt';
+            else:
+                ret = ret + c;
+        return ret;
 
 
     '''
@@ -139,12 +150,11 @@ class Parser:
         self.consumeLine();
         while self.hasNext():
             line = self.readLine();
-            print("SOURCE CODE:"+line);
             if(re.match('^`+', line)):
                 self.append("</pre>\n");
                 self.consumeLine();
                 return;
-            self.append(line+"\n");
+            self.append(self.sanitizeCode(line)+"\n");
             self.consumeLine();
     
 
