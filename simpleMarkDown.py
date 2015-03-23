@@ -59,6 +59,41 @@ class Parser:
         self.pOutput = self.pOutput + str(toAdd);
 
 
+    def parseList(self):
+        listLevel = [-1];
+        while True:
+            line = self.readLine();
+            if(re.match('^\s*-',line)==None):
+                break;
+            c = self.read();
+            indent = 0;
+            while c!='-':
+                self.consume();
+                c = self.read();
+                indent = indent + 1;
+            self.consume();
+            print("INDENT: "+str(indent));
+
+            while listLevel[-1] > indent:
+                self.append(" "*listLevel[-1] + "<ol/>\n");
+                listLevel.pop();
+
+            if listLevel[-1] < indent:
+                listLevel.append(indent);
+                self.append(" "*listLevel[-1] + "<ol>\n");
+            
+            self.append(" "*listLevel[-1]+" <li>")
+            self.parseLine(appendMarker=False);
+            self.append("</li>\n");
+
+
+        numOpen = len(listLevel);
+        self.append("</ol>\n"*(numOpen-1));
+        
+            
+            
+
+
     def parseHeading(self):
         headLevel = -1;
         while True:
@@ -75,23 +110,12 @@ class Parser:
             headLevel = 1;
         heading = '';
 
-        while True:
-            c = self.read();
-            if c=='\\':
-                self.consume();
-                c = self.read();
-                heading = heading + c;
-            if c == '=':
-                self.consumeLine();
-                break;
-            elif c== '\n':
-                self.consumeLine();
-                break;
-            else:
-                heading = heading + c;
-                self.consume();
+        self.append('<h'+str(headLevel)+'>');
+        self.parseLine(endMarker=['=','\n'], appendMarker=False);
 
-        self.append('<h'+str(headLevel)+'>'+heading+'</h'+str(headLevel)+'>\n');
+        self.append('<h'+str(headLevel)+'/>\n');
+        self.consumeLine();
+
             
 
 
@@ -191,13 +215,14 @@ class Parser:
 
 
     '''
-    def parseLine(self):
+    def parseLine(self, endMarker=['\n'], appendMarker=True):
         bFlag = 0;
         iFlag = 0;
         while self.hasNext():
             c = self.read();
-            if c=='\n':
-                self.append("\n");
+            if c in endMarker:
+                if appendMarker:
+                    self.append(c);
                 self.consume();
                 break;
                 
@@ -241,6 +266,8 @@ class Parser:
                 self.parseSourceCode();
             elif (line[0]=='='):
                 self.parseHeading();
+            elif (line[0]=='-'):
+                self.parseList();
             else:
                 self.parseLine();
 
