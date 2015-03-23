@@ -9,7 +9,7 @@
 """
 Ultra Simple MarkDown Parser
 
-*buld*
+*bold*
 /italics/
 [link text href]
 
@@ -31,10 +31,6 @@ import re;
 
 
 class Parser:
-    def __init__(self, pInput, pOutput):
-        self.pInput = pInput;
-        self.pOutput = pOutput;
-        self.pos = 0;
 
     def read(self, till=1):
         ret = self.pInput[self.pos : self.pos + till];
@@ -86,7 +82,7 @@ class Parser:
             self.consume();
 
             while listLevel[-1] > indent:
-                self.append(" "*listLevel[-1] + "<ul/>\n");
+                self.append(" "*listLevel[-1] + "</ul>\n");
                 listLevel.pop();
 
             if listLevel[-1] < indent:
@@ -279,7 +275,10 @@ class Parser:
                 self.consume();
 
 
-    def parse(self):
+    def parse(self, pInput):
+        self.pInput = pInput;
+        self.pOutput = "";
+        self.pos = 0;
         while(self.hasNext()):
             line = self.readLine();
             if (re.match('^\s*$', line)):
@@ -292,18 +291,18 @@ class Parser:
                 self.parseList();
             else:
                 self.parseLine();
+        return self.pOutput;
 
 
 
 if __name__ == "__main__":
-
     try:
         pIn = "";
         while True:
             test = input();
             pIn = pIn + test + "\n";
     except EOFError:
-        p = Parser(pIn, "");
-        p.parse();
+        p = Parser();
+        p.parse(pIn);
         print(p.pOutput);
 
