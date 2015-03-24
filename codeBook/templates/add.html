@@ -5,10 +5,10 @@
 <div class = "section">
     <form method="POST" action="/add/Added">
         <textarea rows="20" cols="60" name="post-content">
-Mark Code Here
+            {{postContent | d('Your Post Comes Here')}}
         </textarea>
         <p/>
-        Tags: <input type="text", name="tags" placeholder='tags seperated by ,'></input><p/>
+        Tags: <input type="text", name="tags" placeholder='tags seperated by ,' value="{{tagList}}"></input><p/>
         Password: <input type="password" name="password" placeholder='password'></input><p/>
         <input type="submit" value="Submit"></input>
     </form>
