@@ -30,7 +30,7 @@ SourceCode
 import re;
 
 
-class Parser:
+class __Parser:
     def read(self, till=1):
         ret = self.pInput[self.pos : self.pos + till];
         return ret;
@@ -275,7 +275,9 @@ class Parser:
         if iFlag == 1:
             self.append("</i>");
 
-
+    '''
+        Start From Here
+    '''
     def parseInput(self, pInput):
         self.pInput = pInput;
         self.pOutput = "";
@@ -295,7 +297,7 @@ class Parser:
         return self.pOutput;
 
 
-p = Parser();
+p = __Parser();
 
 def parse(pInput):
     return p.parseInput(pInput);
