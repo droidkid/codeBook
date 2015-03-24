@@ -65,7 +65,9 @@ class Parser:
     def append(self, toAdd):
         self.pOutput = self.pOutput + str(toAdd);
 
-
+    '''
+        Parse a list block into <ul> items
+    '''
     def parseList(self):
         listLevel = [-1];
         while True:
@@ -97,9 +99,11 @@ class Parser:
         self.append("</ul>\n"*(numOpen-1));
         
             
-            
-
-
+    '''
+        A Heading Block Starts with =
+        == h1 ==
+        === h2 ===
+    '''        
     def parseHeading(self):
         headLevel = -1;
         while True:
@@ -110,10 +114,8 @@ class Parser:
             else:
                 break;
 
-        if headLevel > 7:
-            headLevel = 7;
-        if(headLevel <= 0):
-            headLevel = 1;
+        headLevel = min(7,headLevel);
+        headLevel = max(1, headLevel);
         heading = '';
 
         self.append('<h'+str(headLevel)+'>');
@@ -122,7 +124,12 @@ class Parser:
         self.append('</h'+str(headLevel)+'>\n');
         self.consumeLine();
 
-            
+    '''
+        Converts certain characters in code to html entities
+        < - &lt
+        > - &gt
+        & - &amp
+    '''
     def sanitizeCode(self, line):
         ret = '';
         for c in line:
@@ -138,19 +145,15 @@ class Parser:
 
 
     '''
-    parseSourceCode() parses a Source Code Block
+        parseSourceCode() parses a Source Code Block
+        A Source Code Block looks like
 
-    A Source Code Block looks like
+        ````````            //Atleast one `
+        This is Code Here.
+        Serious Code.       
+        `````````           //Atleast one ` 
 
-    ````````            //Atleast one `
-    This is Code Here.
-    Serious Code.       
-    `````````           //Atleast one ` 
-
-
-
-    and wraps it in a <pre class='prettyprint'> block.
-    
+        and wraps it in a <pre class='prettyprint'> block.
     '''
     def parseSourceCode(self):
         self.append("<pre class='prettyprint'>\n");
@@ -166,7 +169,6 @@ class Parser:
     
 
     '''
-    
         parses and EmptyBlock of lines.
         If there is one empty line, then a <p/> is added.
         If there are more then corresponding number of <br/> are added.
@@ -188,13 +190,9 @@ class Parser:
 
     '''
         parses a inline anchor element.
-
         An anchor element looks like [link text here url]
-
         The url should not contain any spaces.
-
         ToADD: [img width: height: href];
-
     '''
     def parseAnchor(self):
         self.consume();
@@ -221,16 +219,15 @@ class Parser:
             self.append('<a href=\''+url+'\'>'+text+'</a>');
 
     '''
-    Parses a Single Lines
+        Parses a single line:
+        *bold* to <b>bold</b>
+        /italic/ to <i>italic</i>
+        escape sequences with \
+        links are added with [link], see parseAnchor()
 
-    *buld*
-    /italic/
-
-    escape sequences with \
-
-    links are added with [link], see parseAnchor()
-
-
+        A line is parsed until a end marker is reached.
+        by default only \n is included
+        appendMarker specifies whether the endMarker should be put to pOutput or not.
     '''
     def parseLine(self, endMarker=['\n'], appendMarker=True):
         bFlag = 0;
@@ -243,7 +240,7 @@ class Parser:
                 self.consume();
                 break;
                 
-            if c=='*':
+            if c=='*':                  # Bold
                 if bFlag == 0:
                     self.append("<b>");
                 else:
@@ -251,7 +248,7 @@ class Parser:
                 bFlag = 1-bFlag;
                 self.consume();
 
-            elif c=='/':
+            elif c=='/':                #Italic
                 if iFlag == 0:
                     self.append("<i>");
                 else:
@@ -259,19 +256,24 @@ class Parser:
                 iFlag = 1-iFlag;
                 self.consume();
 
-            elif c=='[':
+            elif c=='[':                #Link
                 self.parseAnchor();
 
-            elif c=='\\':
+            elif c=='\\':               #Escape Sequence
                 self.consume();
                 if self.hasNext():
                     c = self.read();
                     self.append(c);
                     self.consume();
-
             else:
                 self.append(c);
                 self.consume();
+
+        #Close of any open <b> or <i> tags
+        if bFlag == 1:
+            self.append("</b>");
+        if iFlag == 1:
+            self.append("</i>");
 
 
     def parseInput(self, pInput):
@@ -280,15 +282,15 @@ class Parser:
         self.pos = 0;
         while(self.hasNext()):
             line = self.readLine();
-            if (re.match('^\s*$', line)):
+            if (re.match('^\s*$', line)):   #Empty Line
                 self.parseEmptyBlock();
-            elif (re.match('^`+', line)):
+            elif (re.match('^`+', line)):   #Code Block
                 self.parseSourceCode();
-            elif (line[0]=='='):
+            elif (line[0]=='='):            #Heading Block
                 self.parseHeading();
-            elif (line[0]=='-'):
+            elif (line[0]=='-'):            #List Block
                 self.parseList();
-            else:
+            else:                           #Normal Line
                 self.parseLine();
         return self.pOutput;
 
