@@ -1,7 +1,7 @@
 from codeBook import app;
 from flask import render_template,request
 
-from codeBook.smdParser import parse;
+from codeBook.smdparser import parse;
 
 @app.route('/')
 def hello_world():
