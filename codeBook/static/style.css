@@ -33,11 +33,6 @@ body{
 }
 
 
-.content{
-    margin:1em;
-    margin-left:2em;
-}
-
 .content h4, .content ul, .content ol, .content h1{
     margin:0.2em 0;
 }
