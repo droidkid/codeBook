@@ -11,6 +11,7 @@
 
 Table Post
 postCode text(10) pk not null
+postTitle text
 postContent text(10) not null
 
 Table Tag
@@ -31,6 +32,7 @@ c = conn.cursor();
 f = open('codeBook/db/schema.sql');
 s = f.read();
 c.executescript(s);
+conn.commit();
 
 
 addTagSQL = 'insert into tag values(?)'
@@ -44,10 +46,10 @@ def addTag(tagList):
 
         
 
-editPostSQL = 'insert or replace into post(post_Code, post_Content) values(?,?)';
+editPostSQL = 'insert or replace into post(post_code, post_title, post_content) values(?,?,?)';
 tagPostSQL = 'insert into posttag(tag_code, post_code) values(?,?)';
-def editPost(postCode, postContent, tagList):
-    sqlData= (postCode, postContent);
+def editPost(postCode, post_title, postContent, tagList):
+    sqlData= (postCode,post_title, postContent);
     c.execute(editPostSQL, sqlData);
     addTag(tagList);
     sqlData = [(x,postCode) for x in tagList];
@@ -59,13 +61,26 @@ clearZeroTagSQL = 'delete from tag where tag.tag_code not in (select tag_code fr
 def clearZeroTag():
     c.execute(clearZeroTagSQL);
 
-getPostSQL = 'select post_content from post where post_code = ?';
+getPostSQL = 'select post_title, post_content from post where post_code = ?';
 def getPost(postCode):
     c.execute(getPostSQL, (postCode,));
     res = c.fetchone();
     if res is None:
         return None;
-    return res[0];
+    ret = {};
+    ret['post_title'] = res[0];
+    ret['post_content'] = res[1];
+    return ret;
+
+getAllPostSQL = 'select post_code, post_title from post';
+def getAllPostCode():
+    ret = [];
+    for row in c.execute(getAllPostSQL):
+        rowData = {};
+        rowData['post_code'] = row[0];
+        rowData['post_title'] = row[1];
+        ret.append(rowData);
+    return ret;
 
 getTagListSQL = 'select tag_code from posttag where post_code = ?'
 def getTagList(postCode):

@@ -16,7 +16,7 @@ def post(postName):
 def add(addName):
     if request.method == 'POST':
         markDown = request.form.get('post-content');
-        return render_template('./post.html', postContent=parse(markDown));
+        return render_template('./post.html', postContent=parse(markDown), postHead="Test");
     return render_template('./add.html', title=addName);
 
 

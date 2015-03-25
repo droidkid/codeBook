@@ -4,8 +4,9 @@
 <h1> Add Post </h1>
 <div class = "section">
     <form method="POST" action="/add/Added">
+        Post Title: <input type="text", name="post-title" placeholder='Post Title' value="{{postTitle}}"></input><p/>
         <textarea rows="20" cols="60" name="post-content">
-            {{postContent | d('Your Post Comes Here')}}
+{{postContent | d('Your Post Comes Here')}}
         </textarea>
         <p/>
         Tags: <input type="text", name="tags" placeholder='tags seperated by ,' value="{{tagList}}"></input><p/>

@@ -33,18 +33,18 @@ body{
 }
 
 
-.section{
+.content{
     margin:1em;
     margin-left:2em;
 }
 
-.section h4, .section ul, .section ol{
-    margin:0.5em 0;
+.content h4, .content ul, .content ol, .content h1{
+    margin:0.2em 0;
 }
 
 
 
-.section-code{
+.content .prettyprint{
     margin-left:0em;
 }
 
