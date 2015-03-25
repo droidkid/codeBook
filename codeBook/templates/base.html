@@ -16,6 +16,15 @@
         </div>
         
         <div class='content'>
+            {% if error %}
+                <div class='mesg'>
+                    <ul>
+                        {% for m in mesg %}
+                            <li>{{m}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
             {%block content%}
             {%endblock content%}
         </div>
