@@ -1,51 +1,39 @@
 codeBook
 ----------
 
-A simple web app written in python using flask, created mostly for learning purposes and to help me keep track of commonly used code Snippets used in programming contests. 
+A small blogging platform mostly for educational use and personal purposes.
+The goal is to organize frequently used code snippets in programming contests
+as a series of blog posts.
 
-It can also be used to write simple blogs.
+To use it, clone the project and do
+python run.py
 
-Libraries Used
+This will run the app on port 5000(for now).
+
+localhost:5000/ - view all posts.
+localhost:5000/edit/<postCode> - create/edit post.
+localhost:500/post/<postCode> - view post
+
+TODO
+-----
+The App needs a lot of work. Right now the front end enables viewing all posts,
+adding/editing new posts.
+So what needs to be done?
+- password protection
+- delete posts/tags
+- orgainze posts by tags
+- search by tags, search for posts
+- edit button on post page
+- A better home page (the app is a work in progress if you can't tell by now)
+- Pagination
+- Date Field for posts
+- Better (and more?) comments in code.
+
+Built( or Building) Using
 -------------
-Flask
-SqLite
-google Prettify
-
-
-ProjectStructure
-----------------
-
-Tables
--------
-
-table Post - 
-post_id, post_name, post_content
-
-table Tag
-tag_id, tag_name
-
-PostTag
-post_id, tag_id
-
-Navigating
-----------
-
-The app uses a simple master password to make any changes on the blog.
-
-Each post is accessed by
-/post/<postName>
-
-Access by Tags
-/tag/<tagName>
-
-To add new Posts
-/addPost
-
-To edit tags
-/editTags
-
-To edit Posts
-/edit/<postName>
+Flask - a lightweight python web framework.
+SqLite - a simple (relatively) simple database
+google Prettify - to make the code look better.
 
 Writing Posts
 -----------------
@@ -73,10 +61,17 @@ code here
 .Optional Header
 
 -list1
+ -nested lists
 -list2
 -list3
 
 \* - escape Sequence
 
+The Parsing stuff is done in smdparser.py . It doesn't do any fancy stuff, just guesses the type of block
+the markdown is starting with (` for code, - for list), then parses that block. This is repeated till the end
+of the input.
 
+Table Schema
+------------
+The Table Schema is in db/schema.sql
 
