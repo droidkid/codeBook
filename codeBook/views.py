@@ -30,7 +30,7 @@ def edit(postCode):
         if not postTitle:
             e.append('Cannot Have Empty Post Title');
             return render_template('./edit.html',    title=postCode, 
-                                    postTitle=postTitle, postContent = postContent,
+                                    postTitle=postTitle, postContent = postContent.rstrip(),
                                     password = '', mesg = mesg, 
                                     tags = tags);
         
@@ -45,7 +45,7 @@ def edit(postCode):
         postContent = res['postContent'];
         tagList = db.getTagList(postCode);
         return render_template('./edit.html',    title=postCode,
-                                postTitle=postTitle, postContent = postContent,
+                                postTitle=postTitle, postContent = postContent.rstrip(),
                                 password = '', mesg = mesg, 
                                 tags = ",".join(tagList));
 
@@ -56,14 +56,19 @@ def post(postCode):
     res = db.getPost(postCode);
     postCode = postCode;
     postTitle = 'Lost?'
-    postContent = 'Add a new page at /edit/'+postCode;
+    postContent = 'Add a new page [link here /edit/'+postCode+']';
 
     if res:
         postTitle = res['postTitle'];
         postContent = res['postContent'];
 
+        return render_template('./post.html', title=postCode, postCode=postCode,
+                           postTitle = postTitle, 
+                           postContent= parse(postContent));
 
-    return render_template('./post.html', title=postCode, postCode=postCode,
+
+    else:
+        return render_template('./post.html', title="Lost?", 
                            postTitle = postTitle, 
                            postContent= parse(postContent));
 
