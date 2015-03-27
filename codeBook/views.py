@@ -29,7 +29,7 @@ def edit(postCode):
         postTitle = postTitle.strip();
         if not postTitle:
             e.append('Cannot Have Empty Post Title');
-            return render_template('./edit.html',    title=postCode,
+            return render_template('./edit.html',    title=postCode, 
                                     postTitle=postTitle, postContent = postContent,
                                     password = '', mesg = mesg, 
                                     tags = tags);
@@ -63,7 +63,7 @@ def post(postCode):
         postContent = res['postContent'];
 
 
-    return render_template('./post.html', title=postCode,
+    return render_template('./post.html', title=postCode, postCode=postCode,
                            postTitle = postTitle, 
                            postContent= parse(postContent));
 

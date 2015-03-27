@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>{{postTitle}}</h1><hr/>
+<div class="content-header">
+    <h1 class="inline-heading">{{postTitle}}</h1> <span class="edit">
+    {% if postCode %}
+    <a href = "{{url_for('edit', postCode=postCode)}}"><span class="fa fa-pencil fa-lg"></span></a>
+        <span class="fa fa-trash fa-lg"></span></span>
+    {% endif %}
+    <hr/>
+</div>
     {{postContent | safe}}
 {% endblock content %}
