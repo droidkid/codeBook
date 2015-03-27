@@ -13,6 +13,9 @@ body{
     background-color: #2c3e50;
 }
 
+a{
+    text-decoration:none;
+}
 .container{
     margin:0 auto;
     position:relative;
@@ -53,6 +56,13 @@ body{
     margin:0.2em 0;
 }
 
+.content .prettyprint{
+    font-family:"Droid Sans Mono", "Arial Mono";
+    font-weight:bold;
+    font-size:14px;
+    margin-right:8em;
+    margin-left:3em;
+}
 
 .content a, .content a:visited{
     color:blue;
@@ -62,9 +72,6 @@ body{
     color:red;
 }
 
-.content .prettyprint{
-    margin-left:0em;
-}
 
 .content-header{
     margin:2em 0;
