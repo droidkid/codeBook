@@ -60,9 +60,8 @@ a{
     font-family:"Droid Sans Mono", "Arial Mono";
     font-weight:bold;
     font-size:14px;
-    margin-right:8em;
-    margin-left:3em;
 }
+
 
 .content a, .content a:visited{
     color:blue;
@@ -104,6 +103,10 @@ textarea{
     textarea{
         width:650px;
     }   
+    .content .prettyprint{
+        margin-right:8em;
+        margin-left:3em;
+    }
 }
 
 @media (min-width:1024px){
