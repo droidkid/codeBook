@@ -57,6 +57,11 @@ a{
     padding-left: 1em;
 }
 
+.content-goForm{
+    width:320px;
+    margin:0 auto;
+}
+
 .content h4, .content ul, .content ol, .content h1{
     margin:0.2em 0;
 }

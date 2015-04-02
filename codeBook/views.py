@@ -22,7 +22,7 @@ def index():
 
     postContent = "Tags: "+tagList[0:-2] + "\n\n" + postList;
 
-    return render_template('./post.html', title='codeBook', postTitle='Your Posts', postContent=parse(postContent), displayTag = False);
+    return render_template('./index.html', title='codeBook', postTitle='Your Posts', postContent=parse(postContent), displayTag = False);
 
 @app.route('/edit/<postCode>', methods=['GET','POST'])
 def edit(postCode):

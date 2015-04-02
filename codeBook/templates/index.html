@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<script>
+function goPost(){
+    var postCode = document.getElementById('postCode').value;
+    //Perform Validation Here
+    window.location = "/post/"+postCode;
+
+}
+</script>
+
+<div class="content-header">
+    <h1 class="inline-heading">{{postTitle}}</h1> <span class="edit">
+    {% if postCode %}
+    <a href = "{{url_for('edit', postCode=postCode)}}" alt="edit this page"><span class="fa fa-pencil fa-lg"></span></a>
+        <span class="fa fa-trash fa-lg"></span></span>
+    {% endif %}
+    <hr/>
+</div>
+<div class="content-goForm">
+    <form action="javascript:void(0);">
+    <input type="Text" id="postCode"></input>
+    <input type="Submit" value="Go!" onclick="goPost()"/>
+    </form>
+</div>
+<br/>
+
+
+    {{postContent | safe}}
+{% endblock content %}
