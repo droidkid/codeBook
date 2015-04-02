@@ -110,6 +110,14 @@ def getTagList(postCode):
     ret = [x[0] for x in res];
     return ret;
 
+getPostFromTagSQL = 'select post_code from posttag where tag_code = ?'
+def getPostFromTag(tag):
+    c = get_db().cursor();
+    ret = [];
+    for row in c.execute(getPostFromTagSQL, (tag,)):
+        ret.append(row[0]);
+    return ret;
+
 deleteTagSQL = 'delete from tag where tag_code = ?'
 def deleteTag(tag):
     c = get_db().cursor();

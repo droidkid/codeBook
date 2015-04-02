@@ -13,7 +13,7 @@ def index():
     postList = "";
     for post in posts:
         postList = postList + (builder % (post['postTitle'], url_for("post", postCode=post['postCode']))) + "\n";
-    return render_template('./post.html', title='codeBook', postTitle='Your Posts', postContent=parse(postList));
+    return render_template('./post.html', title='codeBook', postTitle='Your Posts', postContent=parse(postList), displayTag = False);
 
 @app.route('/edit/<postCode>', methods=['GET','POST'])
 def edit(postCode):
@@ -51,6 +51,7 @@ def edit(postCode):
 
         
 
+
 @app.route('/post/<postCode>')
 def post(postCode):
     res = db.getPost(postCode);
@@ -63,13 +64,22 @@ def post(postCode):
 
         return render_template('./post.html', title=postCode, postCode=postCode,
                            postTitle = postTitle, tagList = tagList,
-                           postContent= parse(postContent));
+                           postContent= parse(postContent), displayTag = True);
 
 
     else:
         return render_template('./post.html', title="Lost?", 
                            postTitle = postTitle, 
-                           postContent= parse(postContent));
+                           postContent= parse(postContent), displayTag = False);
 
 
 
+@app.route('/tag/<tagCode>')
+def tag(tagCode):
+    res = db.getPostFromTag(tagCode);
+    postContent = "";
+    for post in res:
+        postContent = postContent + "-[link "+post+" /post/"+post+"]\n";
+    print(str(postContent));
+    return render_template('./post.html', title="tag- "+tagCode,
+                        postTitle=tagCode, displayTag = False, postContent=parse(postContent));
