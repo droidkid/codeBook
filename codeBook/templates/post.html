@@ -6,6 +6,18 @@
     <a href = "{{url_for('edit', postCode=postCode)}}" alt="edit this page"><span class="fa fa-pencil fa-lg"></span></a>
         <span class="fa fa-trash fa-lg"></span></span>
     {% endif %}
+    <div class="content-tags">
+        Tags:
+        {% if tagList %}
+            {% for tag in tagList %}
+            <a href='/tag/{{tag}}'>{{tag}}</a>
+            {%endfor%}
+        {% else %}
+            None
+        {% endif %}
+
+
+    </div>
     <hr/>
 </div>
     {{postContent | safe}}

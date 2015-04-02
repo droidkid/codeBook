@@ -54,16 +54,15 @@ def edit(postCode):
 @app.route('/post/<postCode>')
 def post(postCode):
     res = db.getPost(postCode);
-    postCode = postCode;
     postTitle = 'Lost?'
     postContent = 'Add a new page [link here /edit/'+postCode+']';
-
     if res:
         postTitle = res['postTitle'];
         postContent = res['postContent'];
+        tagList = db.getTagList(postCode);
 
         return render_template('./post.html', title=postCode, postCode=postCode,
-                           postTitle = postTitle, 
+                           postTitle = postTitle, tagList = tagList,
                            postContent= parse(postContent));
 
 
