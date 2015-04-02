@@ -8,12 +8,21 @@ from codeBook.smdparser import parse;
 @app.route('/')
 def index():
     posts = db.getAllPostCode();
-    builder = '-[link %s %s]';
+    tags = db.getAllTag();
+    postBuilder = '-[link %s %s]';
+    tagBuilder = '[link %s %s]';
+
     
     postList = "";
+    tagList = "";
+    for tag in tags:
+        tagList = tagList + (tagBuilder % (tag, '/tag/'+tag))+ ', ';
     for post in posts:
-        postList = postList + (builder % (post['postTitle'], url_for("post", postCode=post['postCode']))) + "\n";
-    return render_template('./post.html', title='codeBook', postTitle='Your Posts', postContent=parse(postList), displayTag = False);
+        postList = postList + (postBuilder % (post['postTitle'], url_for("post", postCode=post['postCode']))) + "\n";
+
+    postContent = "Tags: "+tagList[0:-2] + "\n\n" + postList;
+
+    return render_template('./post.html', title='codeBook', postTitle='Your Posts', postContent=parse(postContent), displayTag = False);
 
 @app.route('/edit/<postCode>', methods=['GET','POST'])
 def edit(postCode):

@@ -45,7 +45,7 @@ def get_db():
 
 
 @app.teardown_appcontext
-def close_get_dbection(exception):
+def close_get_db(exception):
     db = getattr(g, '_database', None);
     if db is not None:
         db.close();
@@ -115,6 +115,14 @@ def getPostFromTag(tag):
     c = get_db().cursor();
     ret = [];
     for row in c.execute(getPostFromTagSQL, (tag,)):
+        ret.append(row[0]);
+    return ret;
+
+getAllTagSQL = 'select tag_code from tag';
+def getAllTag():
+    c = get_db().cursor();
+    ret = [];
+    for row in c.execute(getAllTagSQL):
         ret.append(row[0]);
     return ret;
 
