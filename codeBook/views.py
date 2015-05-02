@@ -4,6 +4,7 @@ from flask import render_template,request,redirect,url_for
 import codeBook.db as db;
 from codeBook.smdparser import parse;
 
+PASS = 'ninefuck'
 
 @app.route('/')
 def index():
@@ -36,8 +37,16 @@ def edit(postCode):
         tagList = [x.strip() for x in tagList];
         filter(None, tagList);
         postTitle = postTitle.strip();
+
+        if( password != PASS ):
+            mesg.append('Wrong Password');
+            return render_template('./edit.html',    title=postCode, 
+                                    postTitle=postTitle, postContent = postContent.rstrip(),
+                                    password = '', mesg = mesg, 
+                                    tags = tags);
+
         if not postTitle:
-            e.append('Cannot Have Empty Post Title');
+            mesg.append('Cannot Have Empty Post Title');
             return render_template('./edit.html',    title=postCode, 
                                     postTitle=postTitle, postContent = postContent.rstrip(),
                                     password = '', mesg = mesg, 
