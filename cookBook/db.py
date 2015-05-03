@@ -64,9 +64,9 @@ def editPost(postCode, postTitle, postContent, tagList):
     addTag(tagList);
     sqlData = [];
     for tag in tagList:
-        sqlData = (tag, postCode);
+        sqlData.append((tag, postCode));
     
-    c.execute(tagPostSQL, sqlData);
+    c.executemany(tagPostSQL, sqlData);
     clearZeroTag();
     get_db().commit();
 
