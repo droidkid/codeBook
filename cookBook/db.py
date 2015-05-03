@@ -26,10 +26,10 @@ postCode ForeignKey
 
 import sqlite3
 from flask import g
-from codeBook import app
+from cookBook import app
 
 
-DATABASE = 'codeBook/db/codeBook.db';
+DATABASE = 'cookBook/db/codeBook.db';
 PRAGMA_FK = 'pragma foreign_keys=on'
 
 def connectDB():

@@ -1,8 +1,8 @@
-from codeBook import app;
+from cookBook import app;
 from flask import render_template,request,redirect,url_for
 
-import codeBook.db as db;
-from codeBook.smdparser import parse;
+import cookBook.db as db;
+from cookBook.smdparser import parse;
 
 PASS = 'ninefuck'
 
@@ -23,7 +23,7 @@ def index():
 
     postContent = "Tags: "+tagList[0:-2] + "\n\n" + postList;
 
-    return render_template('./index.html', title='codeBook', postTitle='Your Posts', postContent=parse(postContent), displayTag = False);
+    return render_template('./index.html', title='cookBook', postTitle='Your Posts', postContent=parse(postContent), displayTag = False);
 
 @app.route('/edit/<postCode>', methods=['GET','POST'])
 def edit(postCode):
