@@ -7,42 +7,21 @@
 # Distributed under terms of the MIT license.
 
 
-'''
 
-Table Post
-postCode text(10) pk not null
-postTitle text
-postContent text(10) not null
-
-Table Tag
-tagCode text(20) pk not null
-
-Table postTag
-
-tagCode ForeignKey
-postCode ForeignKey
-
-'''
-
-import sqlite3
+import psycopg2
 from flask import g
 from cookBook import app
-
-
-DATABASE = 'cookBook/db/codeBook.db';
-PRAGMA_FK = 'pragma foreign_keys=on'
+from config import *
 
 def connectDB():
-    return sqlite3.connect(DATABASE);
+    return psycopg2.connect(database=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST);
 
 
 def get_db():
     db = getattr(g, '_database', None);
     if db is None:
         db = g._database = connectDB();
-        db.cursor().execute(PRAGMA_FK);
     return db;
-
 
 @app.teardown_appcontext
 def close_get_db(exception):
@@ -50,27 +29,44 @@ def close_get_db(exception):
     if db is not None:
         db.close();
 
-addTagSQL = 'insert into tag values(?)'
+addTagSQL = 'insert into tag values(%s)'
 def addTag(tagList):
     c = get_db().cursor();
     sqlData = {(x,) for x in tagList};
     for data in sqlData:
         try:
-            c.execute(addTagSQL, data);
-        except sqlite3.IntegrityError:
+            c.execute(addTagSQL, (data,));
+            get_db().commit();
+        except psycopg2.IntegrityError: #Integrity error comes when same key is being added
+            print("Integrity Error!");
+            get_db().rollback();
             pass;
 
         
 
-editPostSQL = 'insert or replace into post(post_code, post_title, post_content) values(?,?,?)';
-tagPostSQL = 'insert into posttag(tag_code, post_code) values(?,?)';
+updatePostSQL = 'update post set(post_code, post_title, post_content)=(%s, %s, %s) where post_code=%s';
+insertPostSQL = 'insert into post(post_code, post_title, post_content) values(%s, %s, %s)';
+deletePostTagSQL = 'delete from posttag where post_code = %s';
+tagPostSQL = 'insert into posttag(tag_code, post_code) values(%s,%s)';
 def editPost(postCode, postTitle, postContent, tagList):
     c = get_db().cursor();
-    sqlData= (postCode,postTitle, postContent);
-    c.execute(editPostSQL, sqlData);
+    sqlData= (postCode,postTitle, postContent, postCode);
+    c.execute(updatePostSQL, sqlData);
+    if( c.rowcount == 0 ):
+        sqlData= (postCode,postTitle, postContent);
+        c.execute(insertPostSQL, sqlData);
+
+
+    c.execute(deletePostTagSQL, (postCode,));
+    print("Rows Deleted"+str(c.rowcount));
+    get_db().commit();
+
     addTag(tagList);
-    sqlData = {(x,postCode) for x in tagList};
-    c.executemany(tagPostSQL, list(sqlData));
+    sqlData = [];
+    for tag in tagList:
+        sqlData = (tag, postCode);
+    
+    c.execute(tagPostSQL, sqlData);
     clearZeroTag();
     get_db().commit();
 
@@ -79,7 +75,7 @@ def clearZeroTag():
     c = get_db().cursor();
     c.execute(clearZeroTagSQL);
 
-getPostSQL = 'select post_title, post_content from post where post_code = ?';
+getPostSQL = 'select post_title, post_content from post where post_code = %s';
 def getPost(postCode):
     c = get_db().cursor();
     c.execute(getPostSQL, (postCode,));
@@ -95,14 +91,15 @@ getAllPostSQL = 'select post_code, post_title from post';
 def getAllPostCode():
     c = get_db().cursor();
     ret = [];
-    for row in c.execute(getAllPostSQL):
+    c.execute(getAllPostSQL);
+    for row in c:
         rowData = {};
         rowData['postCode'] = row[0];
         rowData['postTitle'] = row[1];
         ret.append(rowData);
     return ret;
 
-getTagListSQL = 'select tag_code from posttag where post_code = ?'
+getTagListSQL = 'select tag_code from posttag where post_code = %s'
 def getTagList(postCode):
     c = get_db().cursor();
     c.execute(getTagListSQL, (postCode,));
@@ -110,11 +107,12 @@ def getTagList(postCode):
     ret = [x[0] for x in res];
     return ret;
 
-getPostFromTagSQL = 'select post_code from posttag where tag_code = ?'
+getPostFromTagSQL = 'select post_code from posttag where tag_code = %s'
 def getPostFromTag(tag):
     c = get_db().cursor();
     ret = [];
-    for row in c.execute(getPostFromTagSQL, (tag,)):
+    c.execute(getPostFromTagSQL, (tag,));
+    for row in c:
         ret.append(row[0]);
     return ret;
 
@@ -122,17 +120,18 @@ getAllTagSQL = 'select tag_code from tag';
 def getAllTag():
     c = get_db().cursor();
     ret = [];
-    for row in c.execute(getAllTagSQL):
+    c.execute(getAllTagSQL);
+    for row in c:
         ret.append(row[0]);
     return ret;
 
-deleteTagSQL = 'delete from tag where tag_code = ?'
+deleteTagSQL = 'delete from tag where tag_code = %s'
 def deleteTag(tag):
     c = get_db().cursor();
     c.execute(deleteTagSQL, (tag,));
     get_db.commit();
 
-deletePostSQL = 'delete from post where post_code = ?'
+deletePostSQL = 'delete from post where post_code = %s'
 def deletePost(postCode):
     c = get_db().cursor();
     c.execute(deletePostSQL, (postCode,));
