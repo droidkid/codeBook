@@ -8,7 +8,7 @@
 import psycopg2
 from flask import g
 
-import cookBook.datalayer.postDAO as PostDAO
+import cookBook.datalayer.postdao as PostDAO
 
 from cookBook import app
 from config import *

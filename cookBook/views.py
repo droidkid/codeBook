@@ -6,9 +6,7 @@ from cookBook.smdparser import parse
 import cookBook.datalayer.postdao as PostDAO
 import cookBook.datalayer.posttagdao as PostTagDAO
 import cookBook.datalayer.tagdao as TagDAO
-import cookBook.datalayer.tagdao as TagDAO
 from cookBook.datalayer.post import Post
-from cookBook.datalayer.tag import Tag
 
 PASS = 'ninefuck'
 

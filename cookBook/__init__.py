@@ -3,5 +3,5 @@ from flask import Flask
 app = Flask(__name__)
 
 import cookBook.views
-import cookBook.db
+import cookBook.datalayer.db
 
