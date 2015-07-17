@@ -5,29 +5,34 @@
 # Copyright © 2015 yuvaraj <yuvaraj@eee-pc>
 #
 # Distributed under terms of the MIT license.
-
-
-
 import psycopg2
 from flask import g
+
+import cookBook.datalayer.postDAO as PostDAO
+
 from cookBook import app
 from config import *
 
+
 def connectDB():
-    return psycopg2.connect(database=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST);
+    return psycopg2.connect(database=DB_NAME, user=DB_USER,
+                            password=DB_PASS, host=DB_HOST)
 
 
 def get_db():
-    db = getattr(g, '_database', None);
+    db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = connectDB();
-    return db;
+        db = g._database = connectDB()
+    return db
+
 
 @app.teardown_appcontext
 def close_get_db(exception):
-    db = getattr(g, '_database', None);
+    db = getattr(g, '_database', None)
     if db is not None:
-        db.close();
+        db.close()
+
+
 
 addTagSQL = 'insert into tag values(%s)'
 def addTag(tagList):
@@ -42,10 +47,10 @@ def addTag(tagList):
             get_db().rollback();
             pass;
 
-        
+
 
 updatePostSQL = 'update post set(post_code, post_title, post_content)=(%s, %s, %s) where post_code=%s';
-insertPostSQL = 'insert into post(post_code, post_title, post_content) values(%s, %s, %s)';
+insertPostSQL = 'insert into ost(post_code, post_title, post_content) values(%s, %s, %s)';
 deletePostTagSQL = 'delete from posttag where post_code = %s';
 tagPostSQL = 'insert into posttag(tag_code, post_code) values(%s,%s)';
 def editPost(postCode, postTitle, postContent, tagList):
@@ -55,17 +60,13 @@ def editPost(postCode, postTitle, postContent, tagList):
     if( c.rowcount == 0 ):
         sqlData= (postCode,postTitle, postContent);
         c.execute(insertPostSQL, sqlData);
-
-
     c.execute(deletePostTagSQL, (postCode,));
     print("Rows Deleted"+str(c.rowcount));
     get_db().commit();
-
     addTag(tagList);
     sqlData = [];
     for tag in tagList:
         sqlData.append((tag, postCode));
-    
     c.executemany(tagPostSQL, sqlData);
     clearZeroTag();
     get_db().commit();
@@ -75,17 +76,14 @@ def clearZeroTag():
     c = get_db().cursor();
     c.execute(clearZeroTagSQL);
 
-getPostSQL = 'select post_title, post_content from post where post_code = %s';
-def getPost(postCode):
-    c = get_db().cursor();
-    c.execute(getPostSQL, (postCode,));
-    res = c.fetchone();
-    if res is None:
-        return None;
-    ret = {};
-    ret['postTitle'] = res[0];
-    ret['postContent'] = res[1];
-    return ret;
+
+def getPost(post_code):
+    post = PostDAO.get_post(get_cursor(), post_code)
+    ret = {}
+    ret['postTitle'] = post.get_title()
+    ret['postContent'] = post.get_content()
+    return ret
+
 
 getAllPostSQL = 'select post_code, post_title from post';
 def getAllPostCode():
