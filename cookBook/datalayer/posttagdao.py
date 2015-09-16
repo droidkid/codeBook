@@ -13,3 +13,4 @@ def delete_tags_of_post(db, post_code):
     delete_tags_of_post_sql = 'delete from posttag where post_code = %s'
     cursor.execute(delete_tags_of_post_sql, (post_code,))
     db.commit()
+

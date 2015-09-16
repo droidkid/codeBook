@@ -4,7 +4,6 @@
     <h1 class="inline-heading">{{postTitle}}</h1> <span class="edit">
     {% if postCode %}
     <a href = "{{url_for('edit', post_code=postCode)}}" alt="edit this page"><span class="fa fa-pencil fa-lg"></span></a>
-        <span class="fa fa-trash fa-lg"></span></span>
     {% endif %}
     {%if displayTag %}
     <div class="content-tags">

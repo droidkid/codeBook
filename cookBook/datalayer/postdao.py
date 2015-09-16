@@ -1,5 +1,5 @@
 from cookBook.datalayer.post import Post
-
+import cookBook.datalayer.posttagdao as posttagdao
 
 def get_post(db, postCode):
     cursor = db.cursor()
@@ -73,4 +73,12 @@ def insert_post(db, post):
     db.commit()
     return cursor.rowcount
 
+def delete_post(db, post_code):
+    posttagdao.delete_tags_of_post(db, post_code)
+    cursor = db.cursor()
+    delete_post_sql = 'delete from post where post_code = %s'
+    params = (post_code,)
+    cursor.execute(delete_post_sql, params)
+    db.commit()
+    return cursor.rowcount
 

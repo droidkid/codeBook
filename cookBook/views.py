@@ -1,5 +1,5 @@
 from cookBook import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 
 import cookBook.datalayer.db as db
 from cookBook.smdparser import parse
@@ -61,7 +61,6 @@ def edit_post(post_code, post_title, post_content, tag_list):
 def edit(post_code):
     post_title = ''
     post_content = ''
-    messages = []
     tags = ''
     if request.method == 'POST':
         post_title = request.form.get('postTitle').strip()
@@ -71,9 +70,9 @@ def edit(post_code):
         filter(None, tag_list)
         password = request.form.get('password')
         if(password != PASS):
-            messages.append('Wrong Password')
+            flash('Wrong Password')
         elif not post_title:
-            messages.append('Cannot Have Empty Post Title')
+            flash('Cannot Have Empty Post Title')
         else:
             edit_post(post_code, post_title, post_content, tag_list)
             return redirect(url_for('post', post_code=post_code))
@@ -90,7 +89,6 @@ def edit(post_code):
                            postTitle=post_title,
                            postContent=post_content.rstrip(),
                            password='',
-                           mesg=messages,
                            tags=tags)
 
 
@@ -100,17 +98,33 @@ def post(post_code):
     title = 'Lost?'
     content = 'Add a new page [link here /edit/'+post_code+']'
     displayTag = False
+    tag_list = []
     if post:
         title = post.get_title()
         content = post.get_content()
-        tagList = TagDAO.get_tag_of_post(db.get_db(), post_code)
+        tag_list = TagDAO.get_tag_of_post(db.get_db(), post_code)
         displayTag = True
     return render_template('./post.html',
                            title=post_code,
                            postCode=post_code,
-                           postTitle=title, tagList=tagList,
+                           postTitle=title, tagList=tag_list,
                            postContent=parse(content),
                            displayTag=displayTag)
+
+
+@app.route('/delete/<post_code>', methods=["POST"])
+def delete(post_code):
+    password = request.form.get('password')
+    if password == PASS:
+        result = PostDAO.delete_post(db.get_db(), post_code)
+        if (result):
+            flash('Post deleted')
+        else:
+            flash('Post does not exist')
+        return redirect(url_for('index'))
+    else:
+        flash('Wrong Password')
+        return redirect(url_for('edit', post_code=post_code))
 
 
 @app.route('/tag/<tagCode>')
