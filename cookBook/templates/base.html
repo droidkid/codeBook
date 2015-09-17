@@ -3,40 +3,50 @@
     <meta charset='UTF-8'>
     <meta name="viewport" content="wclassth=device-wclassth,initial-scale=1">
     <head>
-       <title>
+        <title>
             {{title}}
         </title>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
         <link rel='stylesheet' type='text/css' href="{{url_for('static', filename='prettify/hemisu-dark.css')}}"/>
         <link rel='stylesheet' type='text/css' href="{{url_for('static', filename='style.css')}}"/>
-        <link rel='stylesheet' type='text/css' href="{{url_for('static', filename='normalize.css')}}"/>
         <link rel='stylesheet' type='text/css' href="{{url_for('static', filename='font-awesome/css/font-awesome.css')}}"/>
         <script type='text/javascript' src="{{url_for('static', filename='prettify/prettify.js')}}"></script>
     </head>
     <body onLoad='prettyPrint()'>
-        <div class='container'>
+        <div class='container pure-g'>
 
-        <div class='header'>
-            <a href="/"><div class='header-title'>reGrok</div></a>
-        </div>
-        
-        <div class='content'>
-            {% with messages = get_flashed_messages() %} 
-            {% if messages %}
+            <div class='header pure-u-1'>
+                <a href="/"><div class='header-title'>reGrok</div></a>
+            </div>
+            <div class="sidebar pure-u-5-24">
+                <div class="sidebar-box">
+                    box1
+                </div>
+                <div class="sidebar-box">
+                    box2
+                </div>
+            </div>
+
+            <div class='content pure-u-16-24'>
+                {% with messages = get_flashed_messages() %} 
+                {% if messages %}
                 <div class='message'>
                     <ul>
                         {% for m in messages %}
-                            <li>{{m}}</li>
+                        <li>{{m}}</li>
                         {% endfor %}
                     </ul>
                 </div>
-            {% endif %}
-            {% endwith %}
-            {%block content%}
-            {%endblock content%}
-        </div>
-        
-        <div class='footer'>
-        </div>
+                {% endif %}
+                {% endwith %}
+
+
+                {%block content%}
+                {%endblock content%} 
+            </div>
+
+            <div class='footer'>
+            </div>
         </div>
     </body>
 </html>
