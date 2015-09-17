@@ -1,13 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-<script>
-function goPost(){
-    var postCode = document.getElementById('postCode').value;
-    //Perform Validation Here
-    window.location = "/post/"+postCode;
-
-}
-</script>
 
 <div class="content-header">
     <h1 class="inline-heading">{{postTitle}}</h1> <span class="edit">
