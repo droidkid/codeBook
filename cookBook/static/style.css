@@ -8,7 +8,7 @@ html{
     height:100%;
 }
 body{
-    font-family: "Sans Serif", "Arial";
+    font-family: "Arial", "Helvetica", "sans-serif";
     font-weight: 400;
     margin:0px auto;
     background-color: #333;
@@ -52,7 +52,7 @@ a{
 .post {
     margin: 5px 5px;
     margin-bottom: 20px;
-    padding:0px 20px 40px;
+    padding:0px 0px 80px;
 }
 
 
@@ -102,7 +102,8 @@ textarea{
 }
 
 .footer{
-    background-color: #34495e;
+    background-color: #000;
+    color: white;
 }
 
 @media (min-width:768px){
@@ -113,22 +114,23 @@ textarea{
 
 @media (min-width:1024px){
     .main .container {
-        padding-right: 330px;
+        padding-right: 550px;
         overflow: hidden;
-        margin-left:40px;
+        margin-left:60px;
     }
     .content {
         float: left;
         width: 100%;
         padding: 20px;
         padding-right:0px;
+        padding-left: 50px;
     }
     .sidebar {
         float: left;
-        margin-right: -330px;
-        width: 300px;
+        margin-right: -530px;
+        width: 500px;
         padding: 20px;
-        padding-left: 0px;
+        padding-left: 100px;
     }
     .content, .sidebar {
         padding-bottom: 99999px;
