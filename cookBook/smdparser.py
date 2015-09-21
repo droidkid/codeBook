@@ -27,7 +27,7 @@ SourceCode
 
 """
 
-import cookBook.datalayer.db as db
+import cloudinary
 import re
 
 
@@ -183,7 +183,6 @@ class __Parser:
             self.append("<br/>\n"*numLine)
 
     def parseImageURL(self, image_details):
-        cloudinary = db.get_cloudinary()
         words = image_details.split()
         width = None
         height = None

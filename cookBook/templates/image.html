@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content-header">
+<h1> Edit/Add Post  </h1><hr/>
+</div>
+<div class = "section">
+    <form method="POST" enctype="multipart/form-data">
+        Image Title: <input type="text", name="imageTitle" placeholder='Image Code'></input><p/>
+        <input type="file" accept="image/*" name="image"></input> <p/>
+        <input type="submit" value="Upload"></input>
+    </form>
+</div>
+
+{% endblock content %}

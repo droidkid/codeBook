@@ -1,5 +1,6 @@
 from cookBook import app
 from flask import render_template, request, redirect, url_for, flash
+from cloudinary.uploader import upload
 
 import cookBook.datalayer.db as db
 from cookBook.smdparser import parse
@@ -137,3 +138,13 @@ def tag(tagCode):
                            postTitle=tagCode,
                            displayTag=False,
                            postContent=parse(list_of_posturl))
+
+
+@app.route('/upload_image', methods=["POST", "GET"])
+def upload_image():
+    if request.method == "POST":
+        image = request.files['image']
+        upload_result = upload(image, public_id='bleh')
+        print upload_result
+        flash(' image sent ')
+    return render_template('./image.html', title="upload image")

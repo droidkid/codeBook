@@ -1,5 +1,4 @@
 import psycopg2
-import cloudinary
 from flask import g
 
 from cookBook import app
@@ -16,17 +15,6 @@ def get_db():
     if db is None:
         db = g._database = connectDB()
     return db
-
-
-def get_cloudinary():
-    cloudinary_config = getattr(g, '_cloudinary', None)
-    if cloudinary_config is None:
-        cloudinary.config(
-            cloud_name=CLOUDINARY_CLOUD_NAME,
-            api_key=CLOUDINARY_API_KEY,
-            api_secret=CLOUDINARY_API_SECRET)
-        g._cloudinary = cloudinary
-    return cloudinary
 
 
 @app.teardown_appcontext
