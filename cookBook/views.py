@@ -7,8 +7,9 @@ import cookBook.datalayer.postdao as PostDAO
 import cookBook.datalayer.posttagdao as PostTagDAO
 import cookBook.datalayer.tagdao as TagDAO
 from cookBook.datalayer.post import Post
+from config import *
 
-PASS = 'ninefuck'
+PASS = ADMIN_PASS
 
 
 def get_list_of_posturl(posts):

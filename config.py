@@ -1,4 +1,12 @@
-DB_HOST = 'ec2-184-73-165-195.compute-1.amazonaws.com'
-DB_USER = 'thbmdqnbbxvrhp'
-DB_PASS = 'yL4l8b9_d1iQPsNPND-AcqmjNl'
-DB_NAME = 'd5v2u48i27s9a5'
+import os
+
+DB_HOST = os.environ['CK_DB_HOST']
+DB_USER = os.environ['CK_DB_USER']
+DB_PASS = os.environ['CK_DB_PASS']
+DB_NAME = os.environ['CK_DB_NAME']
+
+CLOUDINARY_CLOUD_NAME = os.environ['CK_CLOUDINARY_CLOUD_NAME']
+CLOUDINARY_API_KEY = os.environ['CK_CLOUDINARY_API_KEY']
+CLOUDINARY_API_SECRET = os.environ['CK_CLOUDINARY_API_SECRET']
+
+ADMIN_PASS = os.environ['CK_ADMIN_PASS']

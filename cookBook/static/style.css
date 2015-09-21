@@ -107,9 +107,6 @@ textarea{
 }
 
 @media (min-width:768px){
-    textarea{
-        width:650px;
-    }   
 }
 
 @media (min-width:1024px){
