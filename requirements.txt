@@ -3,3 +3,4 @@ Jinja2==2.7.3
 psycopg2==2.6
 virtualenv==12.1.1
 Werkzeug==0.10.1
+cloudinary==1.0.18
