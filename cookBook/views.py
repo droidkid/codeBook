@@ -143,8 +143,22 @@ def tag(tagCode):
 @app.route('/upload_image', methods=["POST", "GET"])
 def upload_image():
     if request.method == "POST":
+        image_code = request.form.get('imageCode').strip()
+        password = request.form.get('password')
         image = request.files['image']
-        upload_result = upload(image, public_id='bleh')
-        print upload_result
-        flash(' image sent ')
+        print "momo"
+        print image
+        if image_code == "":
+            flash('No empty fileName')
+        elif password != PASS:
+            flash('Invalid Password')
+        else:
+            try:
+                upload_result = upload(image, public_id=image_code)
+                if 'error' in upload_result:
+                    flash(' error uploading ' + upload_result['error'])
+                else:
+                    flash(' image uploaded ')
+            except:
+                flash(' error. Please check file uploaded ')
     return render_template('./image.html', title="upload image")
