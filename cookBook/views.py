@@ -146,8 +146,6 @@ def upload_image():
         image_code = request.form.get('imageCode').strip()
         password = request.form.get('password')
         image = request.files['image']
-        print "momo"
-        print image
         if image_code == "":
             flash('No empty fileName')
         elif password != PASS:
