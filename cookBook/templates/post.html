@@ -1,12 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="content-header">
-    <h2 class="inline-heading">{{postTitle}}</h2> <span class="edit">
-    {% if postCode %}
-    <a href = "{{url_for('edit', post_code=postCode)}}" alt="edit this page"><span class="fa fa-pencil fa-lg"></span></a>
-    {% endif %}
+<div class="post-header">
+    {{postTitle}}
     {%if displayTag %}
-    <div class="content-tags">
+    <div class="post-tags">
         Tags:
         {% if tagList %}
             {% for tag in tagList %}

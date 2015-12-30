@@ -1,146 +1,94 @@
 *{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
 }
 
 html{
-    height:100%;
+        height:100%;
 }
 body{
-    font-family: "Arial", "Helvetica", "sans-serif";
-    font-weight: 400;
-    margin:0px auto;
-    background-color: #333;
-    line-height: 1.5;
+        font-family: "Open Sans", "Arial", "Helvetica", "sans-serif";
+        font-weight: 300;
+        line-height: 1.5;
+	font-size: 18px;
+	background: #16a085;
 }
 
 a{
-    text-decoration:none;
+        text-decoration:none;
 }
 
-.header{
-    top :0px;
-    height: 60px;
-    background-color: #000;
-    color:white;
-}
-
-.header .header-title{
-    margin:0 0.3em;
-    padding-left:0.3em;
-    height:60px;
-    letter-spacing:-3px;
-    font-size: 2em;
-    font-weight:bold;
-}
-
-.header a, a:visited, a:hover{
-    color:white;
-}
-
-.sidebar {
-    background: #eee;
-}
-
-.sidebar-box {
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    height: 150px;
-    background: white;
+.content{
 }
 
 .post {
-    margin: 5px 5px;
-    margin-bottom: 20px;
-    padding:0px 0px 80px;
+	background:#ffffff;
+	box-shadow: 0 0 10px;
+	
 }
 
-
-.content{
-    background-color:#eee;
-}
-
-.content-tags{
-    font-size:12px;
-    color: #444;
+.post-tags{
+        font-size:12px;
+        color: #444;
 }
 
 .content-goForm{
-    margin:0 auto;
+        margin:0 auto;
 }
 
 .content h4, .content ul, .content ol, .content h1{
-    margin:0.2em 0;
+        margin:0.2em 0;
 }
 
 .content .prettyprint{
-    font-family:"Droid Sans Mono", "Arial Mono";
-    font-weight:bold;
-    font-size:14px;
+        font-family:"Droid Sans Mono", "Arial Mono";
+        font-weight:bold;
+        font-size:14px;
 }
 
 .content a, .content a:visited{
-    color:blue;
+        color:blue;
 }
 .content a:hover{
-    color:red;
+        color:red;
 }
 
 
-.content-header h1, .content-header h2, .content-header h3{
-    display: inline;
-    margin-right:0.5em;
+.post-header h1, .post-header h2, .post-header h3{
+        display: inline;
+        margin-right:0.5em;
+
 }
-.content-header {
-    margin-bottom: 15px;
+.post-header {
+	font-family:"Roboto";
+        margin: 35px 0px;
+	font-size:55px;
+	font-weight:700;
+	line-spacing:-0.02em;
 }
 
 
 textarea{
-    resize:none;
-    width:100%;
+        resize:none;
+        width:100%;
 }
 
 .footer{
-    background-color: #000;
-    color: white;
-}
-
-@media (min-width:768px){
-}
-
-@media (min-width:1024px){
-    .main .container {
-        padding-right: 550px;
-        overflow: hidden;
-        margin-left:60px;
-    }
-    .content {
-        float: left;
-        width: 100%;
-        padding: 20px;
-        padding-right:0px;
-        padding-left: 50px;
-    }
-    .sidebar {
-        float: left;
-        margin-right: -530px;
-        width: 500px;
-        padding: 20px;
-        padding-left: 100px;
-    }
-    .content, .sidebar {
-        padding-bottom: 99999px;
-        margin-bottom: -99999px;
-    }
-    .sidebar-box {
-        margin:5px 5px;
-        margin-bottom: 20px;
-        padding:10px;
-        padding-left:0px;
-    }
-
+        background-color: #000;
+        color: white;
 }
 
 
 
+.navbar {
+	border-radius:0px;
+	margin-bottom:0px;
+}
+
+@media(min-width:768px) {
+	.post {
+	padding-right: 100px;
+	padding-left: 120px;
+	}
+}
