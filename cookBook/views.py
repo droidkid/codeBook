@@ -39,7 +39,7 @@ def index():
     list_of_tag = get_list_of_tagurl(tags)
     content = parse(list_of_tag + "\n\n" + list_of_post)
     return render_template('./index.html',
-                           title='reGrok',
+                           title='droidkid\'s blog',
                            postTitle='Posts',
                            postContent=content,
                            displayTag=False)
